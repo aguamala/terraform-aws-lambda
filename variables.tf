@@ -2,12 +2,22 @@ variable "function_name" {
   description = "Lambda function name"
 }
 
+variable "filename" {
+  description = "The path to the function's deployment package within the local filesystem."
+  default = ""
+}
+
 variable "description" {
   description = "Lambda function description"
 }
 
 variable "runtime" {
   description = "Lambda function runtime"
+}
+
+variable "memory_size" {
+  description = "Lambda function memory size"
+  default = "128"
 }
 
 variable "handler" {
@@ -46,14 +56,19 @@ variable "environment_variables" {
   }
 }
 
+variable "vpc_access" {
+  description = "Lambda function needs VPC access"
+  default = false
+}
+
 variable "vpc_subnet_ids" {
   description = "VPC access subnet ids"
-  default = []
+  default = ""
 }
 
 variable "vpc_security_group_ids" {
   description = "VPC access security groups"
-  default = []
+  default = ""
 }
 
 variable "schedule" {
