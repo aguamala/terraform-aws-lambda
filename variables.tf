@@ -11,6 +11,11 @@ variable "description" {
   description = "Lambda function description"
 }
 
+variable "dead_letter_target_arn" {
+  description = "The ARN of an SNS topic or SQS queue to notify when an invocation fails."
+  default = ""
+}
+
 variable "runtime" {
   description = "Lambda function runtime"
 }
@@ -30,14 +35,17 @@ variable "timeout" {
 
 variable "s3_bucket" {
   description = "Lambda function package S3 bucket"
+  default = ""
 }
 
 variable "s3_key" {
   description = "Lambda function package S3 key"
+  default = ""
 }
 
 variable "s3_object_version" {
   description = "Lambda function package S3 version"
+  default = ""
 }
 
 variable "role" {
