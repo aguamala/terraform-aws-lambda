@@ -34,7 +34,7 @@ resource "aws_lambda_permission" "cloudwatch_event_s3" {
 resource "aws_cloudwatch_event_rule" "s3" {
     count = "${! var.vpc_access && var.filename == "" && var.dead_letter_target_arn == "" ? 1 : 0}"
 
-    name                = "${aws_lambda_function.s3.function_name}"
+    name                = "${aws_lambda_function.s3.function_name}_s3"
     schedule_expression = "${var.schedule_expression}"
     is_enabled          = "${var.schedule_is_enabled}"
 }

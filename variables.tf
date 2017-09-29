@@ -16,6 +16,11 @@ variable "dead_letter_target_arn" {
   default = ""
 }
 
+variable "publish" {
+  description = "Publish lambda function version"
+  default = false
+}
+
 variable "runtime" {
   description = "Lambda function runtime"
 }

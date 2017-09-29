@@ -10,7 +10,7 @@ resource "aws_lambda_function" "s3_dl" {
     s3_bucket         = "${var.s3_bucket}"
     s3_key            = "${var.s3_key}"
     s3_object_version = "${var.s3_object_version}"
-    function_name     = "${var.function_name}"
+    function_name     = "${var.function_name}_s3_dl"
     role              = "${var.role}"
     handler           = "${var.handler}"
     description       = "${var.description}"
@@ -38,7 +38,7 @@ resource "aws_lambda_permission" "cloudwatch_event_s3_dl" {
 resource "aws_cloudwatch_event_rule" "s3_dl" {
     count = "${! var.vpc_access && var.filename == "" && var.dead_letter_target_arn != "" ? 1 : 0}"
 
-    name                = "${aws_lambda_function.s3_dl.function_name}"
+    name                = "${aws_lambda_function.s3_dl.function_name}_s3_dl"
     schedule_expression = "${var.schedule_expression}"
     is_enabled          = "${var.schedule_is_enabled}"
 }

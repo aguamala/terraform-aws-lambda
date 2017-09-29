@@ -3,15 +3,17 @@
 #--------------------------------------------------------------
 resource "aws_lambda_function" "filename_dl" {
     count = "${! var.vpc_access && var.filename != "" && var.dead_letter_target_arn != "" ? 1 : 0}"
-
-    runtime           = "${var.runtime}"
-    memory_size       = "${var.memory_size}"
-    timeout           = "${var.timeout}"
-    filename          = "${var.filename}"
-    function_name     = "${var.function_name}_filename_dl"
-    role              = "${var.role}"
-    handler           = "${var.handler}"
-    description       = "${var.description}"
+    
+    runtime          = "${var.runtime}"
+    memory_size      = "${var.memory_size}"
+    timeout          = "${var.timeout}"
+    filename         = "${var.filename}"
+    source_code_hash = "${base64sha256(file("${var.filename}"))}"
+    function_name    = "${var.function_name}_dl"
+    role             = "${var.role}"
+    handler          = "${var.handler}"
+    description      = "${var.description}"
+    publish          = "${var.publish}"
 
     environment {
         variables = "${var.environment_variables}"
@@ -36,7 +38,7 @@ resource "aws_lambda_permission" "cloudwatch_event_filename_dl" {
 resource "aws_cloudwatch_event_rule" "filename_dl" {
     count = "${! var.vpc_access && var.filename != "" && var.dead_letter_target_arn != "" ? 1 : 0}"
 
-    name                = "${aws_lambda_function.filename_dl.function_name}"
+    name                = "${aws_lambda_function.filename_dl.function_name}_dl"
     schedule_expression = "${var.schedule_expression}"
     is_enabled          = "${var.schedule_is_enabled}"
 }
